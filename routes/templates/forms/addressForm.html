@@ -1,0 +1,34 @@
+{% load widget_tweaks %}
+<!-- <form action="{% url 'index' %}" method="POST"> -->
+    <!-- {% csrf_token %} -->
+    <div class="form-group">
+        <label for="{{form.street.id_for_label}}">{{form.street.label}}</label>
+        <input name="street" type="text" class="form-control" id="{{form.street.id_for_label}}" placeholder="Enter Street Address">
+        {% if form.street.help_text %}
+            <small id="streetHelp" class="form-text text-muted">{{form.street.help_text|safe}}</small>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="{{form.city.id_for_label}}">{{form.city.label}}</label>
+        <input name="city" type="text" class="form-control" id="{{form.city.id_for_label}}" placeholder="Enter City">
+        {% if form.city.help_text %}
+            <small id="cityHelp" class="form-text text-muted">{{form.city.help_text|safe}}</small>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="{{form.province.id_for_label}}">{{form.province.label}}</label>
+        <br/>
+        {{ form.province|add_class:"form-control" }}
+        <br/>
+        {% if form.province.help_text %}
+            <small id="provinceHelp" class="form-text text-muted">{{form.province.help_text|safe}}</small>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="{{form.postal_code.id_for_label}}">{{form.postal_code.label}}</label>
+        <input name="postal_code" type="text" class="form-control" id="{{form.postal_code.id_for_label}}" placeholder="Enter Postal Code">
+        {% if form.postal_code.help_text %}
+            <small id="postalHelp" class="form-text text-muted">{{form.postal_code.help_text|safe}}</small>
+        {% endif %}
+    </div>
+<!-- </form> -->
