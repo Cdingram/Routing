@@ -3,11 +3,13 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 <script src="{% static 'routes/index.js' %}"></script>
+<script src="{% static 'routes/geocode.js' %}"></script>
 <link rel="stylesheet" type="text/css" href="{% static 'routes/index.css' %}" />
 
 <br>
 <div class="container-fluid">
 	<div class="button create-route">
+        <!-- Rework as button? -->
 		<a class="btn btn-info" role="button" style="display:block; margin:0 auto;">
 		Route</a>
 	</div>
@@ -15,16 +17,42 @@
 <br>
 
 <div class="container-fluid text-center">
-	<div class="row forms">
-        <form method="POST" id="routes-form">
-            {% csrf_token %}
-        </form>
+	<div class="row forms text-center">
+        <!-- main content -->
+        <!-- form/address box template -->
 		<div class="col-md-4 address-form template addy">
+            <!-- exit button -->
             <div class="exit" style="float:right;">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </div>
-			{% include "forms/addressForm.html" %}
-		</div>
+            <!-- initial buttons for selecting geocode options -->
+            <div class="container button-container col-md-12">
+                <div class="initial-buttons">
+                    <!-- geocode (address) -->
+                    <div class="col-md-12">
+                        <a class="btn btn-primary col-md-12" id="address-geocode-button" role="button">address</a>
+                    </div>
+                    <br>
+                    <br>
+                    <!-- reverse geocode (map) -->
+                    <div class="col-md-12">
+                        <a class="btn btn-primary col-md-12" role="button">select on map</a>
+                    </div>
+                </div>
+            </div>
+            <!-- geocode box -->
+            <div class="container geocode-container col-md-12">
+                <div class="input-group">
+                    <!-- search icon -->
+                    <span class="input-group-addon search-icon" id="sizing-addon2">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                    <!-- geocode input box -->
+                    <input type="text" class="form-control" placeholder="" aria-describedby="sizing-addon2">
+                </div>
+            </div>
+        </div>
+        <!-- add new address box button  -->
 		<div class="col-md-4 address-form add">
 			<div style="text-align: center;vertical-align: bottom;">
 				<i class="fa fa-plus" aria-hidden="true"></i>
@@ -34,6 +62,21 @@
 </div>
 
 <script type="text/javascript">
-    var FORM_URL = "{% url 'index' %}";
+    var GEOCODE_URL = "{% url 'geocode' %}";
+
+    $(document).ready(function() {
+        // hide address box
+        $("div.template").hide();
+
+        // on click prepend a new template
+        $(".container-fluid .row .address-form.add")   
+            .unbind("click")
+            .click(create_form);
+        
+        // onclick for route button
+        $(".create-route").unbind("click").click(function(){
+            console.log(forms);
+        });
+    });
 </script>
 {% endblock %}

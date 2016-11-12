@@ -6,3 +6,9 @@
 .add:hover {
     background-color: #73AD21;
 }
+.search-icon {
+	background-color: #ffffff;
+}
+.geocode-container {
+	margin: 20px 0px;
+}

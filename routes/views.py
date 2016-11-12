@@ -2,25 +2,28 @@ import django.http
 from django.shortcuts import render
 import forms
 import json
+import googlemaps
+import utils
 
 def index(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        return django.http.HttpResponse(json.dumps(request.POST), "application/json")
-        # create a form instance and populate it with data from the request:
-        #form = forms.AddressForm(request.POST)
-        # # check whether it's valid:
-        # if form.is_valid():
-        #     # process the data in form.cleaned_data as required
-        #     # ...
-        #     # redirect to a new URL:
-        #     render(request, "routes/routes.html")
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = forms.AddressForm()
+    form = forms.AddressForm()
 
     return render(request, "routes/index.html", {"form":form})
+
+def geocode_ajax(request):
+    # if the query is empty, return nothing
+    query = request.GET.get('address', '')
+    if query in [None, '']:
+        return django.http.HttpResponse(json.dumps({}), "application/json")
+
+    # initialize google maps client
+    gmaps = googlemaps.Client(key=utils.get_google_api_key())
+
+    # geocode the query (region set to CANADA)
+    geocode_result = gmaps.geocode(query, region='CA')
+
+    # reutrn the json
+    return django.http.HttpResponse(json.dumps(geocode_result), "application/json")
 
 def route(request):
     if request.method == 'POST':
